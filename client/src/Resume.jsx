@@ -60,16 +60,12 @@ const ResumeBuilder = () => {
     experience: "",
     skills: "",
     hobbies: "",
-    educations: [
-      { education: "", institute: "", percentage: "", passingYear: "" }
-    ]
+    educations: [{ education: "", institute: "", percentage: "", passingYear: "" }]
   });
+
   const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const phoneRegex = /^\d{10}$/;
-  const percentageRegex = /^[0-9]{1,2}%$/; 
-
-
-
+  const percentageRegex = /^[0-9]{1,2}%$/;
 
   const navigate = useNavigate();
 
@@ -77,9 +73,9 @@ const ResumeBuilder = () => {
     if (section) {
       const updatedSection = [...formData[section]];
       updatedSection[index][field] = value;
-      setFormData({ ...formData, [section]: updatedSection });
+      setFormData((prev) => ({ ...prev, [section]: updatedSection }));
     } else {
-      setFormData({ ...formData, [field]: value });
+      setFormData((prev) => ({ ...prev, [field]: value }));
     }
   };
 
@@ -88,12 +84,14 @@ const ResumeBuilder = () => {
       section === "educations"
         ? { education: "", institute: "", percentage: "", passingYear: "" }
         : {};
-    setFormData({ ...formData, [section]: [...formData[section], newSection] });
+    setFormData((prev) => ({ ...prev, [section]: [...prev[section], newSection] }));
   };
 
   const handleRemoveSection = (section, index) => {
-    const updatedSection = formData[section].filter((_, i) => i !== index);
-    setFormData({ ...formData, [section]: updatedSection });
+    setFormData((prev) => ({
+      ...prev,
+      [section]: prev[section].filter((_, i) => i !== index)
+    }));
   };
 
   const handleSave = async () => {
@@ -103,7 +101,7 @@ const ResumeBuilder = () => {
       { field: "email", label: "Email" },
       { field: "phone", label: "Phone" },
       { field: "dob", label: "Date of Birth" },
-      { field: "address", label: "address" },
+      { field: "address", label: "Address" }, // Fixed label consistency
       { field: "gender", label: "Gender" },
       { field: "maritalStatus", label: "Marital Status" },
       { field: "nationality", label: "Nationality" },
@@ -112,19 +110,28 @@ const ResumeBuilder = () => {
       { field: "hobbies", label: "Hobbies" }
     ];
 
+    // Check mandatory fields
     for (let field of mandatoryFields) {
-      if (!formData[field.field]) {
+      if (!formData?.[field.field]) {
         alert(`${field.label} is required.`);
         return;
       }
-      else if (!validRegex.test(formData.email)) {
-        alert("Please enter a valid email ID");
-        return;
-      }
-      else if (!phoneRegex.test(formData.phone.toString())) {
-        alert("Please enter valid 10 digit phone number");
-        return;
-      }
+    }
+
+    // Validate email
+    if (!validRegex.test(formData.email)) {
+      alert("Please enter a valid email ID.");
+      return;
+    }
+
+    // Validate phone number
+    if (!phoneRegex.test(formData.phone.toString())) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+
+    // Validate education percentages
+    if (Array.isArray(formData.educations)) {
       for (let ed of formData.educations) {
         if (!percentageRegex.test(ed.percentage)) {
           alert("Please enter a valid percentage with the '%' sign (e.g., 85%)");

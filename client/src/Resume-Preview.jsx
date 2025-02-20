@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
 // PDF Document Component
 const MyDocument = ({ resumeData }) => (
   <Document>
-    <Page size="A3" style={styles.page}>
+    <Page size="A4" style={styles.page}>
       <View style={styles.container}>
         {/* Resume Heading */}
         <Text style={styles.heading}>Resume</Text>
@@ -122,6 +122,10 @@ const MyDocument = ({ resumeData }) => (
             <View style={styles.detailItem}>
               <Text style={styles.detailLabel}>Gender:</Text>
               <Text style={styles.detailValue}>{resumeData?.gender || "N/A"}</Text>
+            </View>
+            <View style={styles.detailItem}>
+              <Text style={styles.detailLabel}>Martial Status:</Text>
+              <Text style={styles.detailValue}>{resumeData?.maritalStatus || "N/A"}</Text>
             </View>
             <View style={styles.detailItem}>
               <Text style={styles.detailLabel}>Experience:</Text>
@@ -241,6 +245,9 @@ const ResumePreview = () => {
               <span className="font-semibold">Gender:</span> {resumeData?.gender || "Loading..."}
             </p>
             <p>
+              <span className="font-semibold">Martial Status:</span> {resumeData?.maritalStatus || "Loading..."}
+            </p>
+            <p>
               <span className="font-semibold">Experience:</span> {resumeData?.experience || "Loading..."}
             </p>
             <p>
@@ -270,12 +277,16 @@ const ResumePreview = () => {
                 <td className="p-3">{resumeData?.phone || "Loading..."}</td>
               </tr>
               <tr>
-                <td className="p-3 font-semibold">Adress</td>
+                <td className="p-3 font-semibold">Address</td>
                 <td className="p-3">{resumeData?.address || "Loading..."}</td>
               </tr>
               <tr>
                 <td className="p-3 font-semibold">Gender</td>
                 <td className="p-3">{resumeData?.gender || "Loading..."}</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-semibold">Martial Status</td>
+                <td className="p-3">{resumeData?.maritalStatus || "Loading..."}</td>
               </tr>
               <tr>
                 <td className="p-3 font-semibold">Experience</td>
