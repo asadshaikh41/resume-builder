@@ -25,7 +25,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("https://resume-builder-server-ecru.vercel.app/login", {
+      const response = await fetch("https://resume-builder-servers.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
