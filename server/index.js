@@ -6,7 +6,13 @@ const Resume = require('./resumeModel');  // Import the Resume model
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+  {
+    origin : ["https://resume-builder-api-jade.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true
+  }
+));
 
 // Register Route
 app.post("/register", async (req, res) => {
