@@ -146,7 +146,7 @@ const ResumeBuilder = () => {
     localStorage.setItem("resumeData", JSON.stringify(formData));
 
     try {
-      const response = await fetch("http://localhost:5000/saveResume", {
+      const response = await fetch("https://resume-builder-server-ecru.vercel.app/saveResume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
